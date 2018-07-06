@@ -8,7 +8,7 @@ import json_serde  # noqa
 
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
-project = 'json_serde'
+project = 'json-serde'
 copyright = '2018, heartsucker'
 author = 'heartsucker'
 version = json_serde.__version__
@@ -38,7 +38,7 @@ else:
     except ImportError:
         html_theme = 'alabaster'
 
-htmlhelp_basename = 'json_serdedoc'
+htmlhelp_basename = 'json-serdedoc'
 
 epub_title = project
 epub_author = author

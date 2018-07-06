@@ -1,7 +1,7 @@
-json_serde
-==========
+``json-serde``
+==============
 
-``json_serde`` is a tool to make de/serializing JSON into/from Python classes easy.
+``json-serde`` is a tool to make de/serializing JSON into/from Python classes easy.
 
 Quick Start
 -----------

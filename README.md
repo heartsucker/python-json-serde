@@ -1,4 +1,5 @@
-# json_serde
+# json-serde
+[![PyPI Version](https://badge.fury.io/py/json-serde.png)](https://pypi.python.org/pypi/json-serde) [![Documentation Status](https://readthedocs.org/projects/python-json-serde/badge/?version=latest)](https://python-json-serde.readthedocs.io/en/latest/?badge=latest)
 
 JSON de/serializer for Python, inspired by `attrs` and `SQLAlchemy`.
 
