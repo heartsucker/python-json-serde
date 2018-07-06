@@ -28,10 +28,10 @@ bandit: ## Run the static code analyzer
 	@bandit -r json_serde
 
 .PHONY: all
-all: lint test bandit docs publish ## Run all lints and tests
+all: lint bandit docs test ## Run all lints and tests
 
 .PHONY: publish
-publish: ## Upload the package to PyPI
+publish: all ## Upload the package to PyPI
 	@python3 setup.py sdist bdist_wheel && \
 		twine upload dist/*
 
