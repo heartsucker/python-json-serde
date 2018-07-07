@@ -73,6 +73,19 @@ def test_datetime():
     assert foo.to_json() == out
     assert Foo.from_json(out) == foo
 
+    dates = [
+        '2018-01-01T00:00:00+0000',
+        '2018-01-01T00:00:00+00:00',
+        '2018-01-01T00:00:00Z',
+        '2018-01-01T00:00:00.000+0000',
+        '2018-01-01T00:00:00.000+00:00',
+        '2018-01-01T00:00:00.000Z',
+    ]
+
+    for date in dates:
+        out = {'bar': date}
+        assert Foo.from_json(out) == foo
+
 
 def test_validator():
     MSG = 'NOT MORE THAN THREE'

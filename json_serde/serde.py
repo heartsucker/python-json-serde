@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 De/Serialization classes.
 """
@@ -112,6 +114,13 @@ class Float(Field):
 
 class IsoDateTime(Field):
     '''De/serialize a ISO8601 formated timestamp with timezone from/to a JSON string.
+       Will correctly deserialize strings matching:
+         - ``YYYY-MM-DD'T'hh:mm:ss.sss'Z'``
+         - ``YYYY-MM-DD'T'hh:mm:ss'Z'``
+         - ``YYYY-MM-DD'T'hh:mm:ss.sss±hhmm``
+         - ``YYYY-MM-DD'T'hh:mm:ss±hhmm``
+         - ``YYYY-MM-DD'T'hh:mm:ss.sss±hh:mm``
+         - ``YYYY-MM-DD'T'hh:mm:ss±hh:mm``
     '''
 
     __FMT_STRS = ['%Y-%m-%dT%H:%M:%S%z',
@@ -121,13 +130,20 @@ class IsoDateTime(Field):
         return datetime.strftime(value, self.__FMT_STRS[0])
 
     def from_json(self, value: str) -> datetime:
+        if not isinstance(value, str):
+            raise ValueError('Cannot parse {!r} as a date'.format(value))
+        if value.endswith('Z'):
+            value = value[0:-1] + '+0000'
+        else:
+            if len(value) > 3 and value[-3] == ':':
+                value = value[0:-3] + value[-2:]
+
         for fmt_str in self.__FMT_STRS:
             try:
                 return datetime.strptime(value, fmt_str)
             except ValueError:
                 pass
-        if value is not None:
-            raise ValueError('Date had bad format: {}'.format(value))
+        raise ValueError('Date had bad format: {}'.format(value))
 
     def validate(self, value) -> None:
         if not isinstance(value, datetime):
