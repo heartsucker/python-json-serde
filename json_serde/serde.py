@@ -9,6 +9,7 @@ import linecache
 
 from collections import OrderedDict
 from datetime import datetime
+from uuid import UUID
 
 
 class Field:
@@ -148,6 +149,21 @@ class IsoDateTime(Field):
     def validate(self, value) -> None:
         if not isinstance(value, datetime):
             raise TypeError("Expected 'datetime' but got {!r}".format(value.__class__.__name__))
+
+
+class Uuid(Field):
+    '''De/serialize a JSON string to/from a UUID.
+    '''
+
+    def to_json(self, value: UUID) -> str:
+        return str(value)
+
+    def from_json(self, value: str) -> UUID:
+        return UUID(value)
+
+    def validate(self, value) -> None:
+        if not isinstance(value, UUID):
+            raise TypeError("Expected 'UUID' but got {!r}".format(value.__class__.__name__))
 
 
 class List(Field):

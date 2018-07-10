@@ -1,9 +1,10 @@
 import pytest
 
 from datetime import datetime, timezone
+from uuid import UUID
 
 from json_serde.serde import JsonSerde, String, Float, Integer, Boolean, List, Nested, Field, \
-        IsoDateTime
+        IsoDateTime, Uuid
 
 
 def test_string():
@@ -62,6 +63,20 @@ def test_float():
 
     with pytest.raises(TypeError):
         Foo.from_json({'bar': '123'})
+
+
+def test_uuid():
+    class Foo(JsonSerde):
+        bar = Uuid()
+
+    uuid_str = 'a629f931-0463-4b66-b9f3-f66b48deebb0'
+    out = {'bar': uuid_str}
+    foo = Foo(UUID(uuid_str))
+    assert foo.to_json() == out
+    assert Foo.from_json(out) == foo
+
+    out = {'bar': uuid_str.upper()}
+    assert Foo.from_json(out) == foo
 
 
 def test_datetime():
