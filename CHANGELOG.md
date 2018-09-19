@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.3 - 2018-09-19
+- Added UUIDs
+- Allow writing of optional fields to JSON
+
 ## 0.0.2 - 2018-09-19
 - Fixed failures on optional ISO8601 timestamps
 

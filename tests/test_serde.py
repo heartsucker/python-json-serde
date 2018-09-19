@@ -269,3 +269,20 @@ def test_field():
 
     f.validate('wat')
     repr(f)
+
+
+def test_write_optional():
+    with pytest.raises(ValueError):
+        Field(is_optional=False, write_optional=True)
+
+    class Foo(JsonSerde):
+        wat = String(is_optional=True, write_optional=True)
+
+    f = Foo(wat=None)
+    assert f.to_json()['wat'] is None
+
+    class Bar(JsonSerde):
+        wat = String(is_optional=True)
+
+    b = Bar(wat=None)
+    assert 'wat' not in b.to_json()

@@ -18,18 +18,24 @@ class Field:
 
     __COUNTER = 0
 
-    def __init__(self, is_optional: bool=False, validators: list=None, rename=None):
+    def __init__(self, is_optional: bool=False, validators: list=None, rename=None,
+                 write_optional: bool=False):
         ''':param is_optional: If the field is allowed to be missing/``null``/``None``.
            :param validators: List of functions taking ``(self, value)`` as args. **MUST** raise
                an ``Exception`` if they fail.
            :param rename: A different name for the JSON field.
+           :param write_optional: Whether optional values should be written to the JSON object.
         '''
         self.counter = Field.__COUNTER
         Field.__COUNTER += 1
 
+        if not is_optional and write_optional:
+            raise ValueError("Cannot set 'write_optional' on a field with 'is_optional=False'")
+
         self.is_optional = is_optional
         self.validators = validators or []
         self.rename = rename
+        self.write_optional = write_optional
 
     def from_json(self, value):
         '''Create an instance of this class from a JSON value.
@@ -290,7 +296,7 @@ class JsonSerdeMeta(type):
             for name, field in fields.items():
                 val = field.to_json(getattr(self, name))
                 rename = field.rename or name
-                if val is None and field.is_optional:
+                if val is None and field.is_optional and not field.write_optional:
                     continue
                 out[rename] = val
             return out
