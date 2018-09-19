@@ -8,4 +8,5 @@ __version__ = '0.0.3'
 __author__ = 'heartsucker'
 
 
-__all__ = ['JsonSerde', 'String', 'Integer', 'Float', 'Boolean', 'Nested', 'List', 'IsoDateTime']
+__all__ = ['JsonSerde', 'String', 'Integer', 'Float', 'Boolean', 'Nested', 'List', 'IsoDateTime',
+           'Uuid']
