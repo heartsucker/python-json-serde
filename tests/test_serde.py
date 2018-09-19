@@ -101,6 +101,14 @@ def test_datetime():
         out = {'bar': date}
         assert Foo.from_json(out) == foo
 
+    class Bar(JsonSerde):
+        baz = IsoDateTime(is_optional=True)
+
+    bar = Bar(datetime(2018, 1, 1, 0, 0, 0, 0, timezone.utc))
+    for date in dates:
+        out = {'baz': date}
+        assert Bar.from_json(out) == bar
+
 
 def test_validator():
     MSG = 'NOT MORE THAN THREE'

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.4 - 2018-09-19
+- Correctly parse optional args
+
 ## 0.0.3 - 2018-09-19
 - Added UUIDs
 - Allow writing of optional fields to JSON

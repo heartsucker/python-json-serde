@@ -313,7 +313,7 @@ class JsonSerdeMeta(type):
                 if rename in value:
                     val = value[rename]
                     if field.is_optional:
-                        kwargs[name] = val
+                        kwargs[name] = field.from_json(val)
                     else:
                         if isinstance(field, Nested):
                             val = field.typ.from_json(val)
