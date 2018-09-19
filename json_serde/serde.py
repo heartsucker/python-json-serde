@@ -8,7 +8,7 @@ import hashlib
 import linecache
 
 from collections import OrderedDict
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import UUID
 
 
@@ -124,10 +124,15 @@ class IsoDateTime(Field):
          - ``YYYY-MM-DD'T'hh:mm:ss±hh:mm``
     '''
 
+    __FMT_STR_Z = '%Y-%m-%dT%H:%M:%SZ'
     __FMT_STRS = ['%Y-%m-%dT%H:%M:%S%z',
                   '%Y-%m-%dT%H:%M:%S.%f%z']
 
     def to_json(self, value) -> str:
+        if value is None:
+            return None
+        if value.tzinfo == timezone.utc:
+            datetime.strftime(value, self.__FMT_STR_Z)
         return datetime.strftime(value, self.__FMT_STRS[0])
 
     def from_json(self, value: str) -> datetime:

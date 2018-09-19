@@ -15,7 +15,7 @@ Quick Start
 
         username = String()
         user_id = Integer(rename='userId')
-        birthday = IsoDateTime(optional=True)
+        birthday = IsoDateTime(is_optional=True)
 
         @staticmethod
         def what_should_we_do():
