@@ -85,7 +85,7 @@ def test_datetime():
 
     out = {'bar': '2018-01-01T00:00:00+0000'}
     foo = Foo(datetime(2018, 1, 1, 0, 0, 0, 0, timezone.utc))
-    assert foo.to_json() == out
+    assert foo.to_json() == {'bar': '2018-01-01T00:00:00Z'}
     assert Foo.from_json(out) == foo
 
     dates = [
@@ -108,6 +108,10 @@ def test_datetime():
     for date in dates:
         out = {'baz': date}
         assert Bar.from_json(out) == bar
+
+    # without timezone
+    bar = Bar(datetime(2018, 1, 1, 0, 0, 0, 0))
+    assert bar.to_json()['baz'] == '2018-01-01T00:00:00Z'
 
 
 def test_validator():

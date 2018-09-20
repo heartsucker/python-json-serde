@@ -137,8 +137,10 @@ class IsoDateTime(Field):
     def to_json(self, value) -> str:
         if value is None:
             return None
+        if value.tzinfo is None:
+            value = value.replace(tzinfo=timezone.utc)
         if value.tzinfo == timezone.utc:
-            datetime.strftime(value, self.__FMT_STR_Z)
+            return datetime.strftime(value, self.__FMT_STR_Z)
         return datetime.strftime(value, self.__FMT_STRS[0])
 
     def from_json(self, value: str) -> datetime:
@@ -152,7 +154,10 @@ class IsoDateTime(Field):
 
         for fmt_str in self.__FMT_STRS:
             try:
-                return datetime.strptime(value, fmt_str)
+                dt = datetime.strptime(value, fmt_str)
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                return dt
             except ValueError:
                 pass
         raise ValueError('Date had bad format: {}'.format(value))
