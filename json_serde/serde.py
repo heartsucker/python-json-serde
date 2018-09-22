@@ -301,7 +301,7 @@ class JsonSerdeMeta(type):
             init_lines.append('    self.__validate()')
 
         init = '\n'.join(init_lines)
-        sha = hashlib.sha1()
+        sha = hashlib.sha1()  # nosec
         sha.update(init_lines[0].encode('utf-8'))
         filename = "<json_serde init {}>".format(sha.hexdigest())
 
@@ -376,7 +376,7 @@ class JsonSerdeMeta(type):
         hash_lines = ['def __hash__(self) -> int:',
                       '    return hash(({}))'.format(', '.join(getters))]
 
-        sha = hashlib.sha1()
+        sha = hashlib.sha1()  # nosec
         sha.update((','.join([k for k in fields.keys()]).encode('utf-8')))
         filename = "<json_serde hash {}>".format(sha.hexdigest())
 
