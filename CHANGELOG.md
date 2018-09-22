@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.6 - 2018-09-22
+- IsoDate type
+
 ## 0.0.4 - 2018-09-19
 - Correctly parse optional args
 

@@ -1,10 +1,10 @@
 import pytest
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from uuid import UUID
 
 from json_serde.serde import JsonSerde, String, Float, Integer, Boolean, List, Nested, Field, \
-        IsoDateTime, Uuid
+        IsoDateTime, Uuid, IsoDate
 
 
 def test_string():
@@ -97,16 +97,16 @@ def test_datetime():
         '2018-01-01T00:00:00.000Z',
     ]
 
-    for date in dates:
-        out = {'bar': date}
+    for dt in dates:
+        out = {'bar': dt}
         assert Foo.from_json(out) == foo
 
     class Bar(JsonSerde):
         baz = IsoDateTime(is_optional=True)
 
     bar = Bar(datetime(2018, 1, 1, 0, 0, 0, 0, timezone.utc))
-    for date in dates:
-        out = {'baz': date}
+    for dt in dates:
+        out = {'baz': dt}
         assert Bar.from_json(out) == bar
 
     # without timezone
@@ -298,3 +298,13 @@ def test_write_optional():
 
     b = Bar(wat=None)
     assert 'wat' not in b.to_json()
+
+
+def test_iso_date():
+    class Foo(JsonSerde):
+        bar = IsoDate()
+
+    out = {'bar': '2018-01-01'}
+    foo = Foo(date(2018, 1, 1))
+    assert foo.to_json() == out
+    assert Foo.from_json(out) == foo

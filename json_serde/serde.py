@@ -8,7 +8,7 @@ import hashlib
 import linecache
 
 from collections import OrderedDict
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from uuid import UUID
 
 
@@ -165,6 +165,30 @@ class IsoDateTime(Field):
     def validate(self, value) -> None:
         if not isinstance(value, datetime):
             raise TypeError("Expected 'datetime' but got {!r}".format(value.__class__.__name__))
+
+
+class IsoDate(Field):
+    '''De/serialize a ISO8601 formated date (`YYYY-MM-DD`) from/to a JSON string.
+    '''
+
+    __FMT_STR = '%Y-%m-%d'
+
+    def to_json(self, value) -> str:
+        if value is None:
+            return None
+        return datetime.strftime(value, self.__FMT_STR)
+
+    def from_json(self, value: str) -> datetime:
+        if not isinstance(value, str):
+            raise ValueError('Cannot parse {!r} as a date'.format(value))
+        split = value.split('-')
+        if len(split) != 3:
+            raise ValueError('Date had bad format: {}'.format(value))
+        return date(*[int(x) for x in split])
+
+    def validate(self, value) -> None:
+        if not isinstance(value, date):
+            raise TypeError("Expected 'date' but got {!r}".format(value.__class__.__name__))
 
 
 class Uuid(Field):
