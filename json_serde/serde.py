@@ -243,6 +243,8 @@ class Nested(Field):
         self.typ = typ
 
     def to_json(self, value):
+        if value is None:
+            return None
         return value.to_json()
 
     def from_json(self, value):
@@ -320,7 +322,7 @@ class JsonSerdeMeta(type):
 
     @staticmethod
     def mk_to_json(fields: OrderedDict) -> callable:
-        def to_json(self) -> OrderedDict:
+        def to_json(self) -> dict:
             out = {}
             for name, field in fields.items():
                 val = field.to_json(getattr(self, name))

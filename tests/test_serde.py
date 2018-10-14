@@ -308,3 +308,17 @@ def test_iso_date():
     foo = Foo(date(2018, 1, 1))
     assert foo.to_json() == out
     assert Foo.from_json(out) == foo
+
+
+def test_nested_none():
+    '''Regression test for #2'''
+
+    class Inner(JsonSerde):
+        foo = String()
+
+    class Outer(JsonSerde):
+        inner = Nested(Inner, is_optional=True, write_optional=True)
+
+    outer = Outer(inner=None)
+    jsn = outer.to_json()
+    assert jsn['inner'] is None
