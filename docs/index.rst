@@ -15,7 +15,7 @@ Quick Start
 
         username = String()
         user_id = Integer(rename='userId')
-        birthday = IsoDateTime(is_optional=True)
+        birthday = IsoDateTime(is_optional=True, default=None)
 
         @staticmethod
         def what_should_we_do():
@@ -31,6 +31,13 @@ Quick Start
     assert user.birthday is None
     assert user.to_json() == some_json
     assert User.what_should_we_do() == 'Hurry up'
+
+
+.. note::
+
+    ``json-serde`` uses the value ``Absent`` to indicate when a value was not present in the JSON.
+    Using ``None`` would be ambiguous in this case as it would not be clear if the value was not
+    present or was ``null``.
 
 
 Full API Docs

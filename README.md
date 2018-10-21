@@ -13,7 +13,7 @@ from json_serde import JsonSerde, Integer, String, IsoDateTime
 class User(JsonSerde):
     username = String()
     user_id = Integer(rename='userId')
-    birthday = IsoDateTime(optional=True)
+    birthday = IsoDateTime(is_optional=True, default=None)
 
 
 resp = requests.get('https://example.com/api/user')
