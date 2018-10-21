@@ -6,7 +6,7 @@ from .serde import JsonSerde, String, Integer, Float, Boolean, Nested, List, Iso
     IsoDate, SerdeError
 from ._utils import Absent
 
-__version__ = '0.0.7'
+__version__ = '0.0.8'
 __author__ = 'heartsucker'
 
 
