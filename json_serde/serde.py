@@ -233,7 +233,7 @@ class List(Field):
 
     def from_json(self, value: list) -> list:
         if not isinstance(value, list):
-            raise TypeError('Expected a list.')
+            raise SerdeError('Expected a list.')
         return [self.typ.from_json(v) for v in value]
 
 
@@ -381,27 +381,38 @@ class JsonSerdeMeta(type):
 
                 if field.is_optional:
                     if val is not None and val is not Absent:
-                        kwargs[name] = field.from_json(val)
+                        try:
+                            kwargs[name] = field.from_json(val)
+                        except SerdeError as e:
+                            raise SerdeError('Field {!r}: {}'.format(rename, e))
                     else:
                         kwargs[name] = val
                 else:
                     if isinstance(field, Nested):
                         if val is not None or val is not Absent:
-                            val = field.typ.from_json(val)
+                            try:
+                                val = field.typ.from_json(val)
+                            except SerdeError as e:
+                                raise SerdeError('Field {!r}: {}'.format(rename, e))
                     elif isinstance(field, List):
                         if not isinstance(val, list):
-                            raise TypeError(
-                                "Expected 'list' but got {!r}".format(val.__class__.__name__))
+                            raise SerdeError('Field {!r}: Expected a list.')
 
                         def parser(v):
                             if v is not None and v is not Absent:
-                                return field.typ.from_json(v)
+                                try:
+                                    return field.typ.from_json(v)
+                                except SerdeError as e:
+                                    raise SerdeError('Field {!r}: {}'.format(rename, e))
                             else:
                                 return v
 
                         val = [parser(v) for v in val]
                     else:
-                        val = field.from_json(val)
+                        try:
+                            val = field.from_json(val)
+                        except SerdeError as e:
+                            raise SerdeError('Field {!r}: {}'.format(rename, e))
                     nargs.append(val)
 
             return cls(*nargs, **kwargs)

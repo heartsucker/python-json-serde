@@ -179,7 +179,7 @@ def test_list():
         'foo': {'bar': 'wat'},
     }
 
-    with pytest.raises(TypeError):
+    with pytest.raises(SerdeError):
         Foo.from_json(out)
 
 
