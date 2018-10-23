@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.9 - 2018-10-23
+
+- Added field names to errors to help devs / consumers
+
+## 0.0.8 - 2018-10-21
+
+- Added support for defaults and differentiating between `null` and not-present values
+
+## 0.0.7 - 2018-10-15
+
+- Fix bug with nesting and `null`/missing fields
+
 ## 0.0.6 - 2018-09-22
 - IsoDate type
 
