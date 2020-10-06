@@ -23,7 +23,7 @@ api_response = resp.json()
 # {'username': 'emmag', 'userId': 1312, 'somethingElse': ['irrelevant']}
 
 user = User.from_json(api_response)
-assert user.username = 'emmag'
+assert user.username == 'emmag'
 assert isinstance(user.user_id, int)
 assert user.birthday is None
 ```
