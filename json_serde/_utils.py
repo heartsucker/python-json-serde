@@ -1,6 +1,6 @@
 class AbsentType:
 
-    '''Type to represent a missing value where ``None`` would be ambiguous.'''
+    """Type to represent a missing value where ``None`` would be ambiguous."""
 
     __INSTANCE = None
 
@@ -13,7 +13,7 @@ class AbsentType:
         return False
 
     def __repr__(self) -> str:
-        return 'Absent'
+        return "Absent"
 
     def __str__(self) -> str:
         return repr(self)
