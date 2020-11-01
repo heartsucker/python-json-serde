@@ -17,7 +17,7 @@ from .serde import (
 )
 from ._utils import Absent
 
-__version__ = "0.0.9"
+__version__ = "0.0.10"
 __author__ = "heartsucker"
 
 

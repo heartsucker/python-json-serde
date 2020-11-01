@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.10 - 2020-11-01
+
+- Renamed `_Absent` to `AbsentType`
+- Made `Absent` falsey
+- Removed support for deprecated Python versions (3.4, 3.5)
+- Added support for new Python versions (3.8, 3.9)
+
 ## 0.0.9 - 2018-10-23
 
 - Added field names to errors to help devs / consumers
