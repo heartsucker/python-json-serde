@@ -98,6 +98,21 @@ class Anything(Field):
         return value
 
 
+class Dict(Field):
+    """De/serialize an arbitrary dict. Does not attempt to do any nested conversions. See `Nested`
+    for more strongly typed de/serialization.
+
+    Additionally note that all values needs to be work with both `json.dumps` and `json.loads`."""
+
+    def from_json(self, value):
+        if not isinstance(value, dict):
+            raise SerdeError("Expected an object.")
+        return value
+
+    def to_json(self, value):
+        return value
+
+
 class String(Field):
     """De/serialize a JSON string."""
 

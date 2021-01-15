@@ -5,6 +5,7 @@ from uuid import UUID
 
 from json_serde.serde import (
     Anything,
+    Dict,
     JsonSerde,
     String,
     Float,
@@ -45,6 +46,20 @@ def test_anything():
 
     assert foo.to_json() == out
     assert Foo.from_json(out) == foo
+
+
+def test_dict():
+    class Foo(JsonSerde):
+        foo = Dict()
+
+    out = {"foo": {"bar": "baz"}}
+    foo = Foo({"bar": "baz"})
+
+    assert foo.to_json() == out
+    assert Foo.from_json(out) == foo
+
+    with pytest.raises(SerdeError):
+        Foo.from_json({"foo": 123})
 
 
 def test_string():
