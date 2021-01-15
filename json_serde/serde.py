@@ -83,6 +83,21 @@ class Field:
         )
 
 
+class Anything(Field):
+    """De/serialize anything.
+
+    Note that this field is still subject to the `is_optional` rules. If you want this to be `None`
+    or `Absent`, you need to include `is_optional=True`.
+
+    Additionally note that the values needs to be work with both `json.dumps` and `json.loads`."""
+
+    def from_json(self, value):
+        return value
+
+    def to_json(self, value):
+        return value
+
+
 class String(Field):
     """De/serialize a JSON string."""
 

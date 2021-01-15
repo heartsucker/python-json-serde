@@ -3,6 +3,7 @@ JSON de/serialization library.
 """
 
 from .serde import (
+    Anything,
     JsonSerde,
     String,
     Integer,
@@ -22,6 +23,7 @@ __author__ = "heartsucker"
 
 
 __all__ = [
+    "Anything",
     "JsonSerde",
     "String",
     "Integer",

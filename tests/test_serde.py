@@ -4,6 +4,7 @@ from datetime import datetime, timezone, date
 from uuid import UUID
 
 from json_serde.serde import (
+    Anything,
     JsonSerde,
     String,
     Float,
@@ -18,6 +19,32 @@ from json_serde.serde import (
     SerdeError,
 )
 from json_serde._utils import Absent
+
+
+def test_anything():
+    class Foo(JsonSerde):
+        foo = Anything()
+
+    out = {"foo": 123}
+    foo = Foo(123)
+
+    assert foo.to_json() == out
+    assert Foo.from_json(out) == foo
+
+    out = {"foo": {"bar": 123}}
+    foo = Foo({"bar": 123})
+
+    assert foo.to_json() == out
+    assert Foo.from_json(out) == foo
+
+    class Foo(JsonSerde):
+        foo = Anything(is_optional=True, default=None, write_null=True)
+
+    out = {"foo": None}
+    foo = Foo(None)
+
+    assert foo.to_json() == out
+    assert Foo.from_json(out) == foo
 
 
 def test_string():
